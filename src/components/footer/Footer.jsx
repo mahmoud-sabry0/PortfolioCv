@@ -1,6 +1,5 @@
 import React from "react";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import "./footer.css";
 
 const Footer = () => {
@@ -25,23 +24,20 @@ const Footer = () => {
             <a href="#projects">Projects</a>
           </li>
           <li>
-            <a href="#contact">contact</a>
+            <a href="#contact">Contact</a>
           </li>
         </ul>
         <div className="footer_socials">
-          <a href="#" target="_blank">
-            <FaFacebook />
+          <a href="https://www.linkedin.com/in/mahmoud-sabry" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+            <FaLinkedin />
           </a>
-          <a href="#" target="_blank">
-            <FaInstagram />
-          </a>
-          <a href="#" target="_blank">
-            <FaXTwitter />
+          <a href="https://github.com/mahmoud-sabry0" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <FaGithub />
           </a>
         </div>
         <div className="footer_copyright">
           <small>
-            &copy;<a href="#">MahmoudSabry</a>All rights reserved
+            &copy; <a href="#">MahmoudSabry</a>. All rights reserved.
           </small>
         </div>
       </footer>

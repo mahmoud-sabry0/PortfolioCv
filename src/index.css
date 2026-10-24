@@ -5,6 +5,7 @@
 margin: 0;
 text-decoration: none;
 list-style: none;
+box-sizing: border-box;
 
 }
 :root{
@@ -29,7 +30,7 @@ body{
   
    color:var(--color-white);
    line-height: 1.7;
-   background-image: url(./assets/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg);
+   background-image: url(./assets/bg.jpg);
     background-color: var(--color-bg);
    background-repeat: no-repeat;
    background-size: cover;       
@@ -54,7 +55,7 @@ section{
 }
 a{
   color: var(--color-primary);
-  transform: var(--transition);
+  transition: var(--transition);
 }
 a:hover{
   color:var(--color-white)

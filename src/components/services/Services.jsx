@@ -1,9 +1,47 @@
 import React from 'react'
-import { FaCode } from 'react-icons/fa'
+import { FaCode, FaReact, FaCloudUploadAlt, FaMobileAlt } from 'react-icons/fa'
 import { IoIosRocket } from 'react-icons/io'
-import { MdDesignServices } from 'react-icons/md'
+import { TbApi } from 'react-icons/tb'
 import "./services.css"
 const Services = () => {
+  const servicesData = [
+    {
+      id: 1,
+      icon: <FaMobileAlt className='icon'/>,
+      title: "Responsive Web Design",
+      disc: "Turning UI/UX designs into pixel-perfect pages that look great on mobile, tablet and desktop, with RTL support.",
+    },
+    {
+      id: 2,
+      icon: <FaReact className='icon'/>,
+      title: "React Web Apps",
+      disc: "Building fast single page applications with React, React Router and Redux Toolkit.",
+    },
+    {
+      id: 3,
+      icon: <TbApi className='icon'/>,
+      title: "API Integration",
+      disc: "Connecting your app to REST APIs with Axios and React Query, with proper loading and error states.",
+    },
+    {
+      id: 4,
+      icon: <IoIosRocket className='icon'/>,
+      title: "Fast Performance",
+      disc: "Optimized, lightweight websites that load quickly and give users a smooth experience.",
+    },
+    {
+      id: 5,
+      icon: <FaCode className='icon'/>,
+      title: "Clean Code",
+      disc: "Reusable components and organized code that is easy to read, maintain and scale.",
+    },
+    {
+      id: 6,
+      icon: <FaCloudUploadAlt className='icon'/>,
+      title: "Deployment",
+      disc: "Publishing your project online with GitHub Pages or Vercel so it's ready to share.",
+    },
+  ];
   return <>
      <section id='services'>
       <div className="top_section">
@@ -11,24 +49,13 @@ const Services = () => {
           <h2>Services</h2>
         </div>
         <div className='container container_services'>
-          <article className='card'>
-          <MdDesignServices className='icon'/>
-          <h3>Web design</h3>
-          <p className='text_light'>Lorem ipsum dolor sit amet</p>
-            
-          </article>
-           <article className='card'>
-          <IoIosRocket className='icon'/>
-          <h3>Fast Performance</h3>
-          <p className='text_light'>Lorem ipsum dolor sit amet</p>
-            
-          </article>
-           <article className='card'>
-          <FaCode className='icon'/>
-          <h3>Clean Code</h3>
-          <p className='text_light'>Lorem ipsum dolor sit amet</p>
-            
-          </article>
+          {servicesData.map(({ id, icon, title, disc }) => (
+            <article key={id} className='card'>
+              {icon}
+              <h3>{title}</h3>
+              <p className='text-light'>{disc}</p>
+            </article>
+          ))}
         </div>
     </section>
   </>

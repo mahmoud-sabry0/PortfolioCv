@@ -4,25 +4,41 @@ import { MdOutlineEmail } from 'react-icons/md'
 import { RiMessengerLine } from 'react-icons/ri'
 import"./contact.css"
 import emailjs from '@emailjs/browser';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 const Contact = () => {
    const form = useRef();
+   const [status,setStatus]=useState("")
 const sendEmail = (e) => {
     e.preventDefault();
+    setStatus("sending")
+
+    const { name, email, message } = Object.fromEntries(new FormData(form.current))
+    // send the same values under the common EmailJS variable names so any template works
+    const params = {
+      name, email, message,
+      from_name: name, user_name: name,
+      from_email: email, user_email: email, reply_to: email,
+      to_name: "Mahmoud Sabry",
+    }
 
     emailjs
-      .sendForm('service_r2c1d0p', 'template_o05qu6d', form.current,  'DnHx-9-X4Qs2kgTz5',
-      )
-      e.target.reset()
-      
+      .send('service_r2c1d0p', 'template_o05qu6d', params, { publicKey: 'DnHx-9-X4Qs2kgTz5' })
+      .then(() => {
+        setStatus("sent")
+        form.current.reset()
+      })
+      .catch((err) => {
+        console.error("EmailJS error:", err)
+        setStatus("error")
+      })
   };
   const contactData=[
     {
       id:1,
       icon:<MdOutlineEmail/>,
       title:"Email",
-      info:"mahmoudSabry@gmail.com",
-      link:"https://mahmoud.sabry.ahmed000@gmail.com",
+      info:"mahmoud.sabry.ahmed000@gmail.com",
+      link:"mailto:mahmoud.sabry.ahmed000@gmail.com",
     },
      {
       id:2,
@@ -36,7 +52,7 @@ const sendEmail = (e) => {
       icon:<BsWhatsapp/>,
       title:"Whatsapp",
       info:"01068259431",
-      link:"https://api.watsapp.com/send?phone=201068259431",
+      link:"https://wa.me/201068259431",
     },
 
 
@@ -54,18 +70,22 @@ const sendEmail = (e) => {
     {icon}
     <h4>{title}</h4>
     <h5>{info}</h5>
-    <a href={link} target='_blank'>Send Massage</a>
+    <a href={link} target='_blank' rel='noopener noreferrer'>Send Message</a>
   </article>
   )}
 </div>
 <form ref={form} onSubmit={sendEmail} >
-<input type='text' placeholder='Full Name' name='name'/>
-<input type='email' placeholder='Your Email' name='email'/>
-<textarea rows={10} placeholder='Enter Yor Massage' name='message' id=''></textarea>
-<button className='btn btn-primary'>Send Message</button>
+<input type='text' placeholder='Full Name' name='name' required/>
+<input type='email' placeholder='Your Email' name='email' required/>
+<textarea rows={10} placeholder='Enter Your Message' name='message' required></textarea>
+<button type='submit' className='btn btn-primary' disabled={status==="sending"}>
+  {status==="sending" ? "Sending..." : "Send Message"}
+</button>
+{status==="sent" && <p className='form_status'>Message sent successfully!</p>}
+{status==="error" && <p className='form_status error'>Something went wrong, please try again or reach me on WhatsApp.</p>}
 </form>
 </div>
-        
+
       </section>
   </>
 }
