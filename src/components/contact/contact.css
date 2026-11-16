@@ -25,6 +25,9 @@ gap: 1.2rem;
     font-size: 2rem;
     margin-bottom: 0.5rem;
 }
+.contact_option h5{
+    word-break: break-word;
+}
 .contact_option a{
     margin-top: 0.7rem;
     display: inline-block;
@@ -47,6 +50,12 @@ gap: 1.2rem;
 .contact_container form button{
     font-size: 18px;
     padding: 14px 30px;
+}
+.form_status{
+    color: var(--color-primary);
+}
+.form_status.error{
+    color: #ff6b6b;
 }
 @media (max-width:1024px) {
     .contact_container{

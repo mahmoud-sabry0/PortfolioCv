@@ -1,73 +1,82 @@
+import { useRef, useState } from 'react'
+import emailjs from '@emailjs/browser'
+import { contactOptions } from '../../data'
+import "./contact.css"
 
-import { BsWhatsapp } from 'react-icons/bs'
-import { MdOutlineEmail } from 'react-icons/md'
-import { RiMessengerLine } from 'react-icons/ri'
-import"./contact.css"
-import emailjs from '@emailjs/browser';
-import React, { useRef } from 'react';
+// EmailJS IDs are public client keys by design. Restrict allowed origins in the EmailJS dashboard.
+const EMAILJS_SERVICE_ID = 'service_r2c1d0p'
+const EMAILJS_TEMPLATE_ID = 'template_o05qu6d'
+const EMAILJS_PUBLIC_KEY = 'DnHx-9-X4Qs2kgTz5'
+
 const Contact = () => {
-   const form = useRef();
-const sendEmail = (e) => {
-    e.preventDefault();
+  const form = useRef()
+  const [status, setStatus] = useState("")
+
+  const sendEmail = (e) => {
+    e.preventDefault()
+    setStatus("sending")
+
+    const { name, email, message } = Object.fromEntries(new FormData(form.current))
+    // send the same values under the common EmailJS variable names so any template works
+    const params = {
+      name, email, message,
+      from_name: name, user_name: name,
+      from_email: email, user_email: email, reply_to: email,
+      to_name: "Mahmoud Sabry",
+    }
 
     emailjs
-      .sendForm('service_r2c1d0p', 'template_o05qu6d', form.current,  'DnHx-9-X4Qs2kgTz5',
-      )
-      e.target.reset()
-      
-  };
-  const contactData=[
-    {
-      id:1,
-      icon:<MdOutlineEmail/>,
-      title:"Email",
-      info:"mahmoudSabry@gmail.com",
-      link:"https://mahmoud.sabry.ahmed000@gmail.com",
-    },
-     {
-      id:2,
-      icon:<RiMessengerLine/>,
-      title:"Messenger",
-      info:"Mahmoud Abn Fadah",
-      link:"https://m.me/MahmoudAbnFadah",
-    },
-    {
-      id:3,
-      icon:<BsWhatsapp/>,
-      title:"Whatsapp",
-      info:"01068259431",
-      link:"https://api.watsapp.com/send?phone=201068259431",
-    },
+      .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params, { publicKey: EMAILJS_PUBLIC_KEY })
+      .then(() => {
+        setStatus("sent")
+        form.current.reset()
+      })
+      .catch((err) => {
+        console.error("EmailJS error:", err)
+        setStatus("error")
+      })
+  }
 
-
-  ]
-  return <>
-     <section className="contact" id='contact'>
-        <div className="top_section">
-          <h5>Get In Touch</h5>
-          <h2>Contact Me</h2>
+  return (
+    <section className="contact" id='contact'>
+      <div className="top_section">
+        <h5>Get In Touch</h5>
+        <h2>Contact Me</h2>
+      </div>
+      <div className='container contact_container'>
+        <div className='contact_options'>
+          {contactOptions.map(({ title, info, href, Icon, cta }) => (
+            <article key={title} className='contact_option'>
+              <Icon aria-hidden="true" />
+              <h4>{title}</h4>
+              <h5>{info}</h5>
+              <a
+                href={href}
+                {...(href.startsWith("http") && { target: "_blank", rel: "noopener noreferrer" })}
+              >
+                {cta}
+              </a>
+            </article>
+          ))}
         </div>
-<div className='container contact_container'>
-<div className='contact_options'>
-  {contactData.map(({id,icon,title,info,link})=>
-  <article key={id} className='contact_option'>
-    {icon}
-    <h4>{title}</h4>
-    <h5>{info}</h5>
-    <a href={link} target='_blank'>Send Massage</a>
-  </article>
-  )}
-</div>
-<form ref={form} onSubmit={sendEmail} >
-<input type='text' placeholder='Full Name' name='name'/>
-<input type='email' placeholder='Your Email' name='email'/>
-<textarea rows={10} placeholder='Enter Yor Massage' name='message' id=''></textarea>
-<button className='btn btn-primary'>Send Message</button>
-</form>
-</div>
-        
-      </section>
-  </>
+        <form ref={form} onSubmit={sendEmail}>
+          <label htmlFor='contact-name' className='visually-hidden'>Full Name</label>
+          <input id='contact-name' type='text' placeholder='Full Name' name='name' autoComplete='name' required />
+          <label htmlFor='contact-email' className='visually-hidden'>Your Email</label>
+          <input id='contact-email' type='email' placeholder='Your Email' name='email' autoComplete='email' required />
+          <label htmlFor='contact-message' className='visually-hidden'>Your Message</label>
+          <textarea id='contact-message' rows={10} placeholder='Enter Your Message' name='message' required></textarea>
+          <button type='submit' className='btn btn-primary' disabled={status === "sending"}>
+            {status === "sending" ? "Sending..." : "Send Message"}
+          </button>
+          <div aria-live='polite'>
+            {status === "sent" && <p className='form_status'>Message sent successfully!</p>}
+            {status === "error" && <p className='form_status error'>Something went wrong, please try again or reach me on WhatsApp.</p>}
+          </div>
+        </form>
+      </div>
+    </section>
+  )
 }
 
 export default Contact

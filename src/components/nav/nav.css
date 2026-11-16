@@ -1,7 +1,6 @@
 nav{
     background: rgba(0,0,0,0.3);
     width: max-content;
-    display: block;
     padding: 0.7rem 1.7rem;
     z-index: 10;
     position: fixed;
@@ -23,8 +22,18 @@ nav a{
 }
 nav a.active{
     background: var(--color-primary);
-    counter-reset: var(--color-white);
+    color: var(--color-white);
 }
 nav a:hover{
     background: rgba(0,0, 0,0.3);
+}
+@media (max-width:600px) {
+    nav{
+        padding: 0.5rem 0.9rem;
+        gap: 0.3rem;
+        bottom: 1.2rem;
+    }
+    nav a{
+        padding: 0.7rem;
+    }
 }

@@ -1,82 +1,38 @@
-import "./projects.css"
-import img1 from "../../assets/portfolio1.jpg";
-import img2 from "../../assets/portfolio2.jpg";
-import img3 from "../../assets/portfolio3.jpg";
-import img4 from "../../assets/portfolio4.jpg";
-import img5 from "../../assets/portfolio5.png";
-import img6 from "../../assets/portfolio6.jpg";
+import { projects } from "../../data";
+import "./projects.css";
+
 const Projects = () => {
-  const portfolioData = [
-    {
-      id: 1,
-      image: img1,
-      title: "portfolio  Item 1",
-      github: "",
-      demo: "",
-    },
-    {
-      id: 2,
-      image: img2,
-      title: "portfolio  Item 2",
-      github: "",
-      demo: "",
-    },
-    {
-      id: 3,
-      image: img3,
-      title: "portfolio  Item 3",
-      github: "",
-      demo: "",
-    },
-    {
-      id: 4,
-      image: img4,
-      title: "portfolio  Item 4",
-      github: "",
-      demo: "",
-    },
-    {
-      id: 5,
-      image: img5,
-      title: "portfolio  Item 5",
-      github: "",
-      demo: "",
-    },
-    {
-      id: 6,
-      image: img6,
-      title: "portfolio  Item 6",
-      github: "",
-      demo: "",
-    },
-  ];
   return (
-    <>
-      <section className="projects" id="projects">
-        <div className="top_section">
-          <h5>My Recent Wark</h5>
-          <h2>Portfolio</h2>
-        </div>
-        <div className="container projects_container">
-          {portfolioData.map(({ id, image, title ,github,demo}) => (
-            <article key={id} className="portfolio_item">
-              <div className="portfolio_item_img">
-                <img src={image} alt="" />
-              </div>
-              <h3>{title}</h3>
-              <div className="portfolio_item_btn">
-                <a target="_blank" href={github} className="btn">
-                  Github
-                </a>
-                <a target="_blank" href={demo} className="btn btn-primary">
-                  Live Demo
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    </>
+    <section className="projects" id="projects">
+      <div className="top_section">
+        <h5>My Recent Work</h5>
+        <h2>Portfolio</h2>
+      </div>
+      <div className="container projects_container">
+        {projects.map(({ image, title, disc, tech, github, demo }) => (
+          <article key={title} className="portfolio_item">
+            <div className="portfolio_item_img">
+              <img src={image} alt={`${title} screenshot`} loading="lazy" decoding="async" />
+            </div>
+            <h3>{title}</h3>
+            <p className="text-light">{disc}</p>
+            <div className="portfolio_item_tech">
+              {tech.map((t) => (
+                <span key={t}>{t}</span>
+              ))}
+            </div>
+            <div className="portfolio_item_btn">
+              <a target="_blank" rel="noopener noreferrer" href={github} className="btn" aria-label={`${title} source code on GitHub`}>
+                GitHub
+              </a>
+              <a target="_blank" rel="noopener noreferrer" href={demo} className="btn btn-primary" aria-label={`${title} live demo`}>
+                Live Demo
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 };
 

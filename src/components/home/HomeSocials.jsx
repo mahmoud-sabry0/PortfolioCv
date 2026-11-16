@@ -1,18 +1,25 @@
-
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub} from "react-icons/fa";
-import { FaDribbble } from "react-icons/fa";
+import { socialLinks } from "../../data"
 import "./home.css"
+
 const HomeSocials = () => {
-  return<>
+  return (
     <div className='home_Socials'>
-      <a href='#' target="_blank"><FaLinkedin/></a>
-      <a href='#'  target="_blank"><FaGithub/></a>
-      <a href='#'  target="_blank"><FaDribbble/></a>
-      
+      {socialLinks.map(({ label, href, Icon }) => {
+        const external = href.startsWith("http")
+        return (
+          <a
+            key={label}
+            href={href}
+            aria-label={label}
+            title={label}
+            {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+          >
+            <Icon />
+          </a>
+        )
+      })}
     </div>
-    </>
-  
+  )
 }
 
 export default HomeSocials
